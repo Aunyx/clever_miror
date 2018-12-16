@@ -4,12 +4,12 @@ import sys
 from pocketsphinx import Pocketsphinx, AudioFile, get_model_path, get_data_path
 
 print(sys.argv)
-if len(argv)>1 :
+if len(sys.argv)>1 :
     fin_path=sys.argv[1]
 else:
     fin_path='lindySpeechTest.raw'
 
-if len(argv)>2 :
+if len(sys.argv)>2 :
     fout_path=sys.argv[2]
 else:
     fout_path='pocketsphinx.log'
