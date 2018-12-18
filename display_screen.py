@@ -9,9 +9,13 @@ from pygame.locals import *
 
 #Constants :
 main_dir = os.path.split(os.path.abspath(__file__))[0]
-SCREENRECT = Rect(0, 0, 640, 480)
+
+HEIGHT = 640
+WIDTH = 960
+FONT_SIZE = 30
+SCREENRECT = Rect(0, 0, WIDTH, HEIGHT)
 logfile=open('log.txt','a')
-logfile.write('INFO : open at ' + str(time.time()) )
+logfile.write('\nINFO : openned at ' + str(time.time()) )
 
 def load_image(file):
     "loads an image, prepares it for play"
@@ -31,24 +35,25 @@ def load_images(*files):
 
 
 class TextSurface(pygame.sprite.Sprite):
-    def __init__(self, name):
+    def __init__(self, name, area_x=0, area_y=0 ,color='white'):
         global logfile
         pygame.sprite.Sprite.__init__(self)
         self.name=name
-        self.font = pygame.font.Font(None, 20)
-        self.color = Color('white')
+        self.font = pygame.font.Font(None, FONT_SIZE)# TODO : change the font
+        self.color = Color(color)#Color of the font
         self.init_text="Init surface text"
         self.changeText(self.init_text)
-        self.rect = self.image.get_rect().move(10, 450)
-        logfile.write("created new TextSurface" + str(name))
+        self.rect = self.image.get_rect().move(area_x, area_y)
+        logfile.write("\nINFO : created new TextSurface" + str(name))
         #self.parentSurface=
 
     def changeText(self,txt):
         self.image = self.font.render(txt, 0, self.color)
-    #def move(self,x,y,parentSurface=self.parentSurface)
 
-    def update(self):
+    def update(self):#needed when using sprites
         pass
+
+
 
 def main(winstyle = 0):
  # Initialize pygame
@@ -57,8 +62,11 @@ def main(winstyle = 0):
     pygame.init()
     if pygame.mixer and not pygame.mixer.get_init():
         print ('Warning, no sound')
-        logfile.write('WARNING : no sound')
+        logfile.write('\nWARNING : no sound')
         pygame.mixer = None
+
+
+    clock = pygame.time.Clock()
 
     # Set the display mode
     winstyle = 0
@@ -75,7 +83,7 @@ def main(winstyle = 0):
 
     #create the background, tile the bgd image
     background = pygame.Surface(SCREENRECT.size)
-    background.fill([10,10,10])
+    background.fill([0,0,0])#Black
 
     #for x in range(0, SCREENRECT.width, bgdtile.get_width()):
     #    background.blit(bgdtile, (x, 0))
@@ -95,13 +103,30 @@ def main(winstyle = 0):
 
     debug_surface= TextSurface('debug display')
     debug_surface.changeText('Test text')
-    all.update()
+    all.add(debug_surface)
 
+    speech_recog_surface = TextSurface('debug display',area_x=WIDTH-FONT_SIZE*20,area_y=HEIGHT-FONT_SIZE*2)
+    speech_recog_surface.changeText('Speech recognition output')
+    all.add(speech_recog_surface)
+
+
+    all.update()
+    while 1:
+
+        #clear/erase the last drawn sprites
+        all.clear(screen, background)
+
+        #update all the sprites
+        all.update()
+
+        #update the display
+        pygame.display.update(all.draw(screen))
+
+
+        clock.tick(40)
 
 if __name__ == '__main__':
-
-
     main()
 
-    logfile.write('INFO : closed at ' + str(time.time()) )
+    logfile.write('\nINFO : closed at ' + str(time.time()) )
     logfile.close()

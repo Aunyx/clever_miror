@@ -3,13 +3,13 @@ https://www.pygame.org/docs/ref/display.html
 pygame example
 https://github.com/pygame/pygame/blob/master/examples/aliens.py
 
-1 :create a window full screen black background
+1 :create a window full screen black background : done
 
-2 : split the window into surfaces
+2 : split the window into surfaces : done
 
-3 : write text on different surfaces of the window
+3 : write text on different surfaces of the window : done
 
-4 : use events to link speech recognition with outlay
+4 : use events to link speech recognition with display
 
 5 : print what has been understood when it is understood
 
