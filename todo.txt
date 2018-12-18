@@ -1,6 +1,7 @@
 for documentation on display
 https://www.pygame.org/docs/ref/display.html
-
+pygame example
+https://github.com/pygame/pygame/blob/master/examples/aliens.py
 
 1 :create a window full screen black background
 
